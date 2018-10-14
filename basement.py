@@ -35,15 +35,23 @@ def turnOnOff(val):
 #			time.sleep(0.1)
 def setLightMode(modeNumber):
 	print "Mode: " + str(modeNumber)
+	lightArray = [(1,2),(1,4),(0,3),(0,1),(0,4),(0,2),(0,6),(0,8),
+			(0,7),(0,5),(0,3),(0,3),(1,7),(1,5),(2,7),(2,5),
+			(2,1),(2,3),(2,8),(2,6),(1,8),(1,6),(2,2),(2,3),
+			(1,1),(1,2)]
 	if modeNumber == 0:
-		for i in range(1,9):
-			r.set(0,i,0)
+		for i in range(0,26):
+			r.set(lightArray[i][0],lightArray[i][1],i % 2)
 	if modeNumber == 1:
-		for i in range(1,9):
-			r.set(1,i,0)
+		for i in range(0,26):
+			r.set(lightArray[i][0],lightArray[i][1],i < 8)
 	if modeNumber == 2:
-		turnOnOff(False)
+		for i in range(0,26):
+			r.set(lightArray[i][0],lightArray[i][1],i < 14)
 	if modeNumber == 3:
+		for i in range(0,26):
+			r.set(lightArray[i][0],lightArray[i][1],i < 14 and i % 2 == 1)
+	if modeNumber == 4:
 		turnOnOff(True)
 #for i in range(0,3):
 #	for j in range(1,9):
@@ -63,7 +71,7 @@ while True:
 		else:
 			selectorSwitchOpen = debounceInput(19)
 			if not selectorSwitchOpen and prevSelectorState:
-				mode = (mode + 1) % 4
+				mode = (mode + 1) % 5
 				setLightMode(mode)
 				print "selector switch" + str(selectorSwitchOpen)
 			prevSelectorState = selectorSwitchOpen
